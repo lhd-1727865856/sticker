@@ -1,0 +1,729 @@
+.main {
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden;
+  background: #f0f7ff;
+  background-image: 
+    radial-gradient(#cae6ff 2px, transparent 2px),
+    radial-gradient(#cae6ff 2px, transparent 2px);
+  background-size: 40px 40px;
+  background-position: 0 0, 20px 20px;
+}
+
+@keyframes moduleFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes moduleSpin {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(180deg); }
+}
+
+@keyframes moduleSlide {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+@keyframes moduleTwinkle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.2); }
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background: transparent;
+}
+
+.topBanner {
+  width: 100vw;
+  padding: 0.8rem 0;
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+}
+
+.bannerContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.bannerText {
+  font-family: "STKaiti", "楷体", serif;
+  font-size: 1.5rem;
+  background: white;
+  padding: 0.5rem 2rem;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(74, 158, 255, 0.1);
+  color: #4a9eff;
+  letter-spacing: 4px;
+}
+
+.emoji {
+  font-size: 1.5rem;
+  animation: moduleSpin 4s linear infinite;
+}
+
+.decorativeLine {
+  display: none;
+}
+
+.lineContent {
+  display: none;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem 3rem;
+  margin-top: 0;
+}
+
+.inputSection {
+  width: 100%;
+  max-width: 800px;
+  margin-top: 4rem;
+  margin-bottom: 3rem;
+  text-align: center;
+  padding: 2.5rem;
+  background: white;
+  border-radius: 30px;
+  box-shadow: 0 4px 15px rgba(0, 150, 199, 0.1);
+  position: relative;
+}
+
+.inputSection::before,
+.inputSection::after {
+  display: none;
+}
+
+.cornerDecoration {
+  display: none;
+}
+
+.title {
+  font-size: 2.8rem;
+  color: #4a9eff;
+  margin-bottom: 1.5rem;
+  font-family: "Comic Sans MS", "楷体", cursive;
+  text-shadow: 
+    1px 1px 0 #cae6ff,
+    2px 2px 0 #4a9eff;
+  -webkit-text-fill-color: initial;
+  background: none;
+  position: relative;
+  letter-spacing: 4px;
+  font-weight: bold;
+}
+
+.title::after {
+  content: '✨';
+  position: absolute;
+  right: -60px;
+  top: -5px;
+  font-size: 2rem;
+  animation: sparkleFloat 2s ease-in-out infinite;
+  text-shadow: none;
+}
+
+.title::before {
+  content: '✨';
+  position: absolute;
+  left: -60px;
+  top: -5px;
+  font-size: 2rem;
+  animation: sparkleFloat 2s ease-in-out infinite 1s;
+  text-shadow: none;
+}
+
+.subtitle {
+  font-size: 1.3rem;
+  color: #4a9eff;
+  margin-bottom: 2.5rem;
+  font-family: "Comic Sans MS", "楷体", cursive;
+  letter-spacing: 1px;
+  line-height: 1.5;
+}
+
+.inputWrapper {
+  display: flex;
+  gap: 1rem;
+  background: #f5faff;
+  padding: 1.2rem;
+  border-radius: 20px;
+  transform: none;
+  box-shadow: 0 2px 8px rgba(74, 158, 255, 0.1);
+}
+
+.input {
+  flex: 1;
+  padding: 1rem 1.5rem;
+  font-size: 1.1rem;
+  border: none;
+  background: white;
+  border-radius: 15px;
+  color: #2d3748;
+  font-family: "Comic Sans MS", "楷体", cursive;
+  box-shadow: inset 0 2px 4px rgba(74, 158, 255, 0.1);
+  letter-spacing: 0.5px;
+}
+
+.input:focus {
+  outline: none;
+  box-shadow: 
+    inset 0 2px 4px rgba(74, 158, 255, 0.2),
+    0 0 0 3px rgba(74, 158, 255, 0.2);
+}
+
+.input::placeholder {
+  color: #a0aec0;
+  opacity: 0.8;
+}
+
+.button {
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  background: #4a9eff;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: "Comic Sans MS", "楷体", cursive;
+  box-shadow: 0 4px 0 #2171c7;
+  letter-spacing: 1px;
+}
+
+.button::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 60%);
+  transform: translate(-100%, -100%);
+  transition: transform 0.5s ease;
+}
+
+.button:hover::before {
+  transform: translate(0, 0);
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 0 #2171c7;
+  background: #66acff;
+}
+
+.button:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #2171c7;
+}
+
+.button:disabled {
+  background: #4a4a4a;
+  box-shadow: 0 4px 0 #333;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.imageContainer {
+  width: 100%;
+  max-width: 800px;
+  background: #2b2d42;
+  padding: 2.5rem;
+  border-radius: 35px;
+  border: 3px solid #00d4ff;
+  box-shadow: 
+    0 8px 30px rgba(0, 212, 255, 0.15),
+    0 0 0 15px #1e2028,
+    0 0 0 18px #3d405b;
+  position: relative;
+  transform: rotate(1deg);
+  margin-top: 2rem;
+}
+
+.imageContainer img {
+  border-radius: 25px;
+  display: block;
+  margin: 0 auto;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  height: auto;
+  max-width: 600px;
+}
+
+.noImage {
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #718096;
+  font-family: "Comic Sans MS", cursive;
+  font-size: 1.6rem;
+  background: 
+    linear-gradient(45deg, transparent 49%, #e2e8f0 49% 51%, transparent 51%) 0 0/30px 30px,
+    linear-gradient(-45deg, transparent 49%, #e2e8f0 49% 51%, transparent 51%) 0 0/30px 30px;
+  border-radius: 20px;
+  padding: 2rem;
+}
+
+.tip {
+  font-size: 1.2rem;
+  margin-top: 1.5rem;
+  color: #718096;
+  opacity: 0.8;
+}
+
+.highlightText {
+  background: none;
+  -webkit-text-fill-color: initial;
+  color: #2171c7;
+  font-weight: bold;
+  padding: 0 5px;
+}
+
+.sparkle {
+  display: inline-block;
+  animation: moduleTwinkle 1.5s ease-in-out infinite;
+  margin: 0 8px;
+  font-size: 1.2rem;
+}
+
+@media (max-width: 1200px) {
+  .container {
+    padding: 1rem 2rem;
+  }
+  
+  .imageContainer {
+    max-width: 700px;
+    padding: 2rem;
+  }
+  
+  .imageContainer img {
+    max-width: 500px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+    margin-top: 0;
+  }
+
+  .imageContainer {
+    padding: 1.5rem;
+    transform: none;
+    max-width: 100%;
+    margin-top: 1.5rem;
+  }
+
+  .imageContainer img {
+    max-width: 100%;
+  }
+
+  .inputSection {
+    margin-top: 3rem;
+    transform: none;
+    padding: 1rem;
+  }
+
+  .title {
+    font-size: 2.2rem;
+    text-shadow: 
+      1px 1px 0 #cae6ff,
+      1.5px 1.5px 0 #4a9eff;
+    letter-spacing: 2px;
+  }
+
+  .title::before,
+  .title::after {
+    font-size: 1.5rem;
+    top: -5px;
+  }
+
+  .title::before {
+    left: -35px;
+  }
+
+  .title::after {
+    right: -35px;
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+  }
+
+  .inputWrapper {
+    flex-direction: column;
+  }
+
+  .button {
+    width: 100%;
+  }
+
+  .bannerText {
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    padding: 0.4rem 1.5rem;
+  }
+
+  .emoji {
+    font-size: 1.2rem;
+  }
+
+  .decorativeLine {
+    height: 20px;
+  }
+
+  .lineContent {
+    gap: 1rem;
+    font-size: 1rem;
+  }
+
+  .cornerDecoration {
+    width: 40px;
+    height: 40px;
+    background-size: 15px 15px;
+  }
+
+  .noImage {
+    height: 400px;
+    font-size: 1.4rem;
+  }
+
+  .tip {
+    font-size: 1rem;
+  }
+}
+
+/* 修改贴纸网格布局 */
+.stickersGrid {
+  width: 90%;
+  max-width: 1600px;
+  margin: 2rem auto;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);  /* 每行5个 */
+  gap: 1.5rem;
+  padding: 1.5rem;
+}
+
+/* 修改贴纸项样式 */
+.stickerItem {
+  transition: all 0.3s ease;
+  cursor: pointer;
+  aspect-ratio: 1;  /* 保持正方形 */
+  position: relative;
+}
+
+.stickerItem:hover {
+  transform: translateY(-5px);
+}
+
+.stickerItem:hover .downloadButton {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 优化图片样式 */
+.stickerImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 4px 12px rgba(0, 150, 199, 0.1));
+}
+
+.stickerItem:hover .stickerImage {
+  filter: drop-shadow(0 8px 20px rgba(0, 150, 199, 0.2));
+}
+
+/* 响应式布局调整 */
+@media (max-width: 1400px) {
+  .stickersGrid {
+    grid-template-columns: repeat(4, 1fr);
+    width: 95%;
+  }
+}
+
+@media (max-width: 1100px) {
+  .stickersGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .stickersGrid {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 1rem;
+    gap: 1rem;
+  }
+  
+  .stickerItem {
+    padding: 0.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .stickersGrid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+/* 添加新的动画 */
+@keyframes borderGlow {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes sparkleFloat {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(5px, -5px) rotate(15deg);
+  }
+}
+
+/* 添加可爱的装饰星星 */
+.inputSection::before {
+  content: '⭐';
+  position: absolute;
+  top: -25px;
+  left: 20px;
+  font-size: 2rem;
+  animation: moduleFloat 3s ease-in-out infinite;
+}
+
+.inputSection::after {
+  content: '⭐';
+  position: absolute;
+  bottom: -25px;
+  right: 20px;
+  font-size: 2rem;
+  animation: moduleFloat 3s ease-in-out infinite 1.5s;
+}
+
+/* 添加可爱的动画效果 */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-1deg); }
+  50% { transform: rotate(2deg); }
+}
+
+/* 添加用户信息区域样式 */
+.userSection {
+  position: fixed;
+  top: 1rem;
+  right: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  z-index: 100;
+  background: white;
+  padding: 0.8rem 1.2rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(74, 158, 255, 0.15);
+}
+
+.balanceInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: "Comic Sans MS", "楷体", cursive;
+  color: #4a9eff;
+  font-size: 1rem;
+}
+
+.balanceAmount {
+  font-weight: bold;
+  color: #2171c7;
+}
+
+.loginButton {
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  background: #4a9eff;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: "Comic Sans MS", "楷体", cursive;
+  box-shadow: 0 3px 0 #2171c7;
+}
+
+.loginButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 0 #2171c7;
+  background: #66acff;
+}
+
+.loginButton:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #2171c7;
+}
+
+.userAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #f0f7ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: #4a9eff;
+  border: 2px solid #4a9eff;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .userSection {
+    top: 0.5rem;
+    right: 1rem;
+    padding: 0.6rem 1rem;
+  }
+
+  .balanceInfo {
+    font-size: 0.9rem;
+  }
+
+  .loginButton {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+.logoutButton {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.9rem;
+  font-weight: bold;
+  background: #f0f7ff;
+  color: #4a9eff;
+  border: 2px solid #4a9eff;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: "Comic Sans MS", "楷体", cursive;
+}
+
+.logoutButton:hover {
+  background: #e6f0ff;
+  transform: translateY(-2px);
+}
+
+.logoutButton:active {
+  transform: translateY(1px);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .userSection {
+    top: 0.5rem;
+    right: 1rem;
+    padding: 0.6rem 1rem;
+  }
+
+  .balanceInfo {
+    font-size: 0.9rem;
+  }
+
+  .loginButton, .logoutButton {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+.error {
+  color: #f44336;
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+  background: rgba(244, 67, 54, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(244, 67, 54, 0.2);
+}
+
+.balanceInfo {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #4a5568;
+}
+
+.balanceAmount {
+  color: #4A90E2;
+  font-weight: 600;
+  margin: 0 0.3rem;
+}
+
+/* 禁用状态的按钮样式 */
+.button:disabled {
+  background: #e2e8f0;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.button:disabled:hover {
+  background: #e2e8f0;
+  transform: none;
+  box-shadow: none;
+}
+
+.downloadButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  opacity: 0;
+  transform: translateY(-10px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+
+.downloadButton:hover {
+  background: white;
+  transform: translateY(0) scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.downloadIcon {
+  width: 20px;
+  height: 20px;
+  color: #4a9eff;
+} 
