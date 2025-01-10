@@ -1,15 +1,25 @@
 # 创意贴纸工坊 (Creative Sticker Workshop)
 
 一个基于 Next.js 和 AI 技术的创意贴纸生成平台，用户可以通过简单的文字描述生成独特的贴纸图片。
+## 预览
+### 首页
+![图片](/docs/img.png)
+### 登录
+![图片](/docs/login.png)
+### 注册
+![图片](/docs/reg.png)
+### 邮箱认证
+![图片](/docs/email.png)
 
 ## 功能特点
 
 - 🎨 AI 驱动的贴纸生成
-- 🔐 GitHub OAuth 登录
+- 🔐 GitHub OAuth 登录/邮箱注册登录
 - 💰 用户余额管理
 - 📥 贴纸下载功能
 - 🎯 实时预览
 - 💫 优雅的动画效果
+
 
 ## 技术栈
 
