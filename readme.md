@@ -40,27 +40,7 @@ npm install
 ```
 
 3. 配置环境变量
-复制 `.env.example` 到 `.env.local` 并填写以下配置：
-```env
-# AI API 配置
-AI_API_KEY=your_api_key
-AI_API_ENDPOINT=https://api.coze.cn
-COZE_WORKFLOW_ID=your_workflow_id
-
-# PostgreSQL 配置
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=your_password
-POSTGRES_HOST=localhost
-POSTGRES_PORT=5432
-POSTGRES_DATABASE=sticker_db
-
-# GitHub OAuth 配置
-GITHUB_ID=your_github_id
-GITHUB_SECRET=your_github_secret
-NEXTAUTH_URL=http://localhost:3000
-# 执行 openssl rand -base64 32
-NEXTAUTH_SECRET=your_nextauth_secret
-```
+复制 `.env.example` 到 `.env.local` 并填写以下配置
 
 4. 初始化数据库
 /lib/schema.sql
