@@ -37,8 +37,6 @@ cd 项目名
 2. 安装依赖
 ```bash
 npm install
-# 或
-yarn install
 ```
 
 3. 配置环境变量

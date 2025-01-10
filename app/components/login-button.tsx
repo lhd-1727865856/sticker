@@ -1,10 +1,18 @@
 'use client';
 
 import { signIn, signOut, useSession } from 'next-auth/react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import styles from './login-button.module.css';
 
 export default function LoginButton() {
   const { data: session, status } = useSession();
+  const pathname = usePathname();
+
+  // 在登录和注册页面隐藏
+  if (pathname?.startsWith('/auth/')) {
+    return null;
+  }
 
   if (status === 'loading') {
     return (
@@ -23,7 +31,7 @@ export default function LoginButton() {
           {session.user.image ? (
             <img 
               src={session.user.image} 
-              alt="avatar" 
+              alt="头像" 
               className={styles.avatar}
             />
           ) : (
@@ -31,10 +39,12 @@ export default function LoginButton() {
               {session.user.name?.[0] || '?'}
             </div>
           )}
-          <span className={styles.userName}>{session.user.name}</span>
+          <span className={styles.userName}>
+            {session.user.name}
+          </span>
         </div>
         <button 
-          onClick={() => signOut()} 
+          onClick={() => signOut({ callbackUrl: '/auth/signin' })} 
           className={styles.logoutButton}
         >
           退出
@@ -44,14 +54,16 @@ export default function LoginButton() {
   }
 
   return (
-    <button 
-      onClick={() => signIn('github')} 
-      className={styles.loginButton}
-    >
-      <svg viewBox="0 0 24 24" className={styles.githubIcon}>
-        <path fill="currentColor" d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385c.6.105.825-.255.825-.57c0-.285-.015-1.23-.015-2.235c-3.015.555-3.795-.735-4.035-1.41c-.135-.345-.72-1.41-1.23-1.695c-.42-.225-1.02-.78-.015-.795c.945-.015 1.62.87 1.845 1.23c1.08 1.815 2.805 1.305 3.495.99c.105-.78.42-1.305.765-1.605c-2.67-.3-5.46-1.335-5.46-5.925c0-1.305.465-2.385 1.23-3.225c-.12-.3-.54-1.53.12-3.18c0 0 1.005-.315 3.3 1.23c.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23c.66 1.65.24 2.88.12 3.18c.765.84 1.23 1.905 1.23 3.225c0 4.605-2.805 5.625-5.475 5.925c.435.375.81 1.095.81 2.22c0 1.605-.015 2.895-.015 3.3c0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+    <Link href="/auth/signin" className={styles.loginButton}>
+      <svg className={styles.githubIcon} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2C6.477 2 2 6.477 2 12C2 17.523 6.477 22 12 22C17.523 22 22 17.523 22 12C22 6.477 17.523 2 12 2Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M12 15C10.343 15 9 13.657 9 12C9 10.343 10.343 9 12 9C13.657 9 15 10.343 15 12C15 13.657 13.657 15 12 15Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M12 5V7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M12 17V19" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M5 12H7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M17 12H19" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
       </svg>
-      使用 GitHub 登录
-    </button>
+      登录 / 注册
+    </Link>
   );
 } 

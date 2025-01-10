@@ -1,58 +1,89 @@
-import NextAuth, { AuthOptions } from 'next-auth';
-import GithubProvider from 'next-auth/providers/github';
-import { UserService } from '@/lib/services/user-service';
+import NextAuth, { AuthOptions } from "next-auth";
+import GithubProvider from "next-auth/providers/github";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { UserService } from "@/lib/services/user-service";
+import bcrypt from "bcryptjs";
 
 export const authOptions: AuthOptions = {
   providers: [
     GithubProvider({
-      clientId: process.env.GITHUB_ID || '',
-      clientSecret: process.env.GITHUB_SECRET || '',
+      clientId: process.env.GITHUB_ID!,
+      clientSecret: process.env.GITHUB_SECRET!,
+    }),
+    CredentialsProvider({
+      name: "credentials",
+      credentials: {
+        email: { label: "邮箱", type: "email" },
+        password: { label: "密码", type: "password" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error("请输入邮箱和密码");
+        }
+
+        const user = await UserService.getUserByEmail(credentials.email);
+
+        if (!user) {
+          throw new Error("邮箱或密码错误");
+        }
+
+        // 检查邮箱是否已验证
+        if (!user.email_verified) {
+          throw new Error("请先验证您的邮箱后再登录");
+        }
+
+        // 检查密码
+        if (!user.password_hash) {
+          throw new Error("此邮箱使用其他方式注册，请使用相应的登录方式");
+        }
+
+        const isValid = await bcrypt.compare(
+          credentials.password,
+          user.password_hash
+        );
+
+        if (!isValid) {
+          throw new Error("邮箱或密码错误");
+        }
+
+        return {
+          id: user.id.toString(),
+          email: user.email || "",
+          name: user.username,
+          image: user.github_avatar_url || null,
+          balance: user.balance,
+        };
+      },
     }),
   ],
+  pages: {
+    signIn: "/auth/signin",
+  },
   callbacks: {
-    async signIn({ user, account }) {
-      if (account?.provider === 'github') {
-        try {
-          // 获取或创建用户
-          const existingUser = await UserService.getUserByGithubId(user.id as string);
-          
-          if (existingUser) {
-            // 更新用户信息
-            await UserService.updateUser(existingUser.id, {
-              github_username: user.name || '',
-              github_avatar_url: user.image || '',
-              github_access_token: account.access_token,
-              email: user.email || null,
-            });
-          } else {
-            // 创建新用户
-            await UserService.createUser({
-              username: user.name || `user_${user.id}`,
-              email: user.email || null,
-              github_id: user.id as string,
-              github_username: user.name || '',
-              github_avatar_url: user.image || '',
-              github_access_token: account.access_token,
-            });
-          }
-          return true;
-        } catch (error) {
-          console.error('Error handling sign in:', error);
-          return false;
-        }
+    async jwt({ token, user, trigger, session }) {
+      if (user) {
+        token.id = user.id;
+        token.balance = user.balance;
       }
-      return true;
+
+      // 处理余额更新
+      if (trigger === "update" && session?.balance) {
+        token.balance = session.balance;
+      }
+
+      return token;
     },
-    async session({ session, token }) {
-      if (session.user) {
-        try {
-          const dbUser = await UserService.getUserByGithubId(token.sub as string);
-          if (dbUser) {
-            session.user.id = dbUser.id;
-            session.user.balance = dbUser.balance;
-          }
-        } catch (error) {
-          console.error('Error loading user session:', error);
+    async session({ session, token, trigger }) {
+      if (token) {
+        session.user.id = parseInt(token.id);
+        
+        // 获取最新余额
+        const user = await UserService.getUser(parseInt(token.id));
+        if (user) {
+          session.user.balance = user.balance;
+          token.balance = user.balance; // 同时更新 token 中的余额
+        } else {
+          session.user.balance = token.balance;
         }
       }
       return session;
@@ -62,4 +93,4 @@ export const authOptions: AuthOptions = {
 
 const handler = NextAuth(authOptions);
 
-export { handler as GET, handler as POST }; 
+export { handler as GET, handler as POST };

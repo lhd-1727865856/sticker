@@ -1,10 +1,15 @@
 import { NextResponse } from 'next/server';
 import { StickerService } from '@/lib/services/sticker-service';
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    // 获取前10个贴纸，按创建时间倒序排序
-    const stickers = await StickerService.getStickers(10, 0);
+    const { searchParams } = new URL(request.url);
+    const userId = searchParams.get('userId');
+
+    // 获取贴纸列表，如果有userId则获取用户的贴纸
+    const stickers = userId 
+      ? await StickerService.getUserStickers(parseInt(userId), 20, 0)
+      : await StickerService.getStickers(20, 0);
     
     return NextResponse.json(stickers);
   } catch (error: any) {

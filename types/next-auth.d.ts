@@ -10,4 +10,19 @@ declare module 'next-auth' {
       balance: number;
     }
   }
+
+  interface User {
+    id: string;
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
+    balance: number;
+  }
+}
+
+declare module 'next-auth/jwt' {
+  interface JWT {
+    id: string;
+    balance: number;
+  }
 } 

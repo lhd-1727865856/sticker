@@ -9,6 +9,7 @@ interface Sticker {
   prompt: string;
   url: string;
   created_at: string;
+  user_id: number;
 }
 
 export default function Home() {
@@ -17,11 +18,15 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [stickers, setStickers] = useState<Sticker[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [showMyStickers, setShowMyStickers] = useState(false);
 
   // 获取贴纸列表
   const fetchStickers = async () => {
     try {
-      const response = await fetch('/api/stickers');
+      const url = showMyStickers && session?.user?.id 
+        ? `/api/stickers?userId=${session.user.id}`
+        : '/api/stickers';
+      const response = await fetch(url);
       const data = await response.json();
       setStickers(data);
     } catch (error) {
@@ -32,7 +37,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchStickers();
-  }, []);
+  }, [showMyStickers, session?.user?.id]);
 
   const handleGenerate = async () => {
     if (!session) {
@@ -61,11 +66,11 @@ export default function Home() {
         throw new Error(data.error || '生成贴纸失败');
       }
 
-      await response.json();
+      const data = await response.json();
       // 生成成功后，刷新贴纸列表和用户余额
       await Promise.all([
         fetchStickers(),
-        updateSession()
+        updateSession({ user: { ...session?.user, balance: undefined }, trigger: 'update' })
       ]);
       setPrompt('');
     } catch (error: any) {
@@ -101,7 +106,6 @@ export default function Home() {
               className={styles.input}
               value={prompt}
               onChange={(e) => {
-                // 限制最多输入6个字
                 if (e.target.value.length <= 10) {
                   setPrompt(e.target.value);
                 }
@@ -119,10 +123,27 @@ export default function Home() {
           </div>
           {session && (
             <p className={styles.balanceInfo}>
-              当前余额：<span className={styles.balanceAmount}>{session.user.balance || 0}</span> 次
+              剩余生成次数：<span className={styles.balanceAmount}>{session.user.balance || 0}</span> 次
             </p>
           )}
         </div>
+
+        {session && (
+          <div className={styles.filterSection}>
+            <button
+              className={`${styles.filterButton} ${!showMyStickers ? styles.active : ''}`}
+              onClick={() => setShowMyStickers(false)}
+            >
+              全部贴纸
+            </button>
+            <button
+              className={`${styles.filterButton} ${showMyStickers ? styles.active : ''}`}
+              onClick={() => setShowMyStickers(true)}
+            >
+              我的贴纸
+            </button>
+          </div>
+        )}
 
         <div className={styles.stickersGrid}>
           {stickers.map((sticker, index) => (
@@ -137,20 +158,13 @@ export default function Home() {
                 onClick={async (e) => {
                   e.stopPropagation();
                   try {
-                    // 使用新的下载 API，添加 prompt 参数
                     const downloadUrl = `/api/download?url=${encodeURIComponent(sticker.url)}&prompt=${encodeURIComponent(sticker.prompt)}`;
-                    
-                    // 创建下载链接
                     const downloadLink = document.createElement('a');
                     downloadLink.style.display = 'none';
                     downloadLink.href = downloadUrl;
                     downloadLink.download = `${sticker.prompt}.png`;
-                    
-                    // 添加到文档并触发点击
                     document.body.appendChild(downloadLink);
                     downloadLink.click();
-                    
-                    // 清理
                     setTimeout(() => {
                       document.body.removeChild(downloadLink);
                     }, 100);

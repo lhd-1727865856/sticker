@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     // 检查用户余额
     const user = await UserService.getUser(session.user.id);
     if (!user || user.balance <= 0) {
-      return NextResponse.json({ error: "余额不足" }, { status: 403 });
+      return NextResponse.json({ error: '生成次数不足' }, { status: 403 });
     }
 
     // 调用 AI API 生成图片
