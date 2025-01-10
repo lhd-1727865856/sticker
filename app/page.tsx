@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import styles from './page.module.css';
+import RechargeModal from './components/recharge-modal';
 
 interface Sticker {
   id: number;
@@ -19,6 +20,7 @@ export default function Home() {
   const [stickers, setStickers] = useState<Sticker[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [showMyStickers, setShowMyStickers] = useState(false);
+  const [showRechargeModal, setShowRechargeModal] = useState(false);
 
   // 获取贴纸列表
   const fetchStickers = async () => {
@@ -122,9 +124,17 @@ export default function Home() {
             </button>
           </div>
           {session && (
-            <p className={styles.balanceInfo}>
-              剩余生成次数：<span className={styles.balanceAmount}>{session.user.balance || 0}</span> 次
-            </p>
+            <div className={styles.balanceContainer}>
+              <p className={styles.balanceInfo}>
+                剩余生成次数：<span className={styles.balanceAmount}>{session.user.balance || 0}</span> 次
+              </p>
+              <button 
+                className={styles.rechargeButton}
+                onClick={() => setShowRechargeModal(true)}
+              >
+                充值
+              </button>
+            </div>
           )}
         </div>
 
@@ -185,6 +195,11 @@ export default function Home() {
           ))}
         </div>
       </div>
+
+      <RechargeModal 
+        isOpen={showRechargeModal} 
+        onClose={() => setShowRechargeModal(false)} 
+      />
     </main>
   );
 } 

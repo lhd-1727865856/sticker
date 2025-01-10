@@ -754,4 +754,47 @@
 .filterButton.active {
   background: #4a9eff;
   color: white;
+}
+
+.balanceContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.balanceInfo {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #4a5568;
+}
+
+.balanceAmount {
+  color: #4A90E2;
+  font-weight: 600;
+  margin: 0 0.3rem;
+}
+
+.rechargeButton {
+  padding: 0.4rem 1.2rem;
+  background: #4a9eff;
+  color: white;
+  border: none;
+  border-radius: 1.5rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(74, 158, 255, 0.2);
+}
+
+.rechargeButton:hover {
+  background: #2171c7;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(74, 158, 255, 0.3);
+}
+
+.rechargeButton:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 2px rgba(74, 158, 255, 0.2);
 } 
